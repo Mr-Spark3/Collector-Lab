@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h3 class="all-collectors-title">Collectors:</h3>
+
+<div class="car-img">
+  <img src="/static/images/car-carcollector-Photoroom.png-Photoroom.png" class="racecar" />
+</div>
+<div class="car-img2">
+  <img src="/static/images/cool car-Photoroom.png-Photoroom.png" class="racecar1" />
+</div>
+
+<div class="card">
+  <a href="/people/{{ person.id }}">
+    <div class="card-content">
+      <div class="image"><img src="{{ person.image }}" /></div>
+      <div class="card-title">{{ person.name }}</div>
+      <p class="card-age">Age: {{ person.age }}</p>
+      <p>Description: {{ person.description }}</p>
+      <div class="card-action">
+        <a href="{% url 'people_update' person.id %}">Edit</a>
+        <a href="{% url 'people_delete' person.id %}">Delete</a>
+      </div>
+    </div>
+  </a>
+</div>
+
+
+<div class="wash-vehicle-container">
+<div class="col s6">
+  <form action="{% url 'add_carwash' person.id %}" class='wash-form' method="POST">
+    {% csrf_token %}
+    <!-- Render the inputs -->
+    {{ carwash_form.as_p }}
+    <input type="submit" class="btn" id='btn-wash' value="Add CarWash" />
+  </form>
+  <!-- new markup above -->
+
+  <table class="striped">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Car Wash</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for carwash in person.carwash_set.all %}
+      <tr>
+        <td>{{ carwash.date }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<hr>
+<div class="row" id="Vehicles">
+  <div class="col s6">
+    <h3>Available Vehicles</h3>
+    {% if vehicles.count %}
+      {% for vehicle in vehicles.all %}
+        <div class="card card-vehicle">
+          <div class="card-content">
+            <span class="card-title">
+                <span style="color: {{ vehicle.color }}">{{ vehicle.color }}</span> {{ vehicle.make }}
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn">Add</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>{{person.name}} Has no Cars</h5>
+    {% endif %}
+  </div>
+</div>
+</div>
+  <!-- Available toys will come after this line -->
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const dateEl = document.getElementById("id_date");
+    M.Datepicker.init(dateEl, {
+      format: "yyyy-mm-dd",
+      defaultDate: new Date(),
+      setDefaultDate: true,
+      autoClose: true,
+    });
+  });
+</script>
+{% endblock %}

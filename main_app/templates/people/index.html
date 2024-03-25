@@ -1,0 +1,27 @@
+{% extends 'base.html' %} {% block content %} 
+
+<h3 class="all-collectors-title">Collectors:</h3>
+
+<div class="car-img">
+  <img src="/static/images/car-carcollector-Photoroom.png-Photoroom.png" class="racecar">
+  </div>
+<div class="car-img2">
+  <img src="/static/images/cool car-Photoroom.png-Photoroom.png" class="racecar1">
+  </div>
+
+{% for person in people %}
+<div id="card-container">
+<div class="card">
+  <a href="/people/{{ person.id }}">
+  <div class="card-content">
+
+    <div class="image"><img src="{{ person.image }}"></div>
+    <div class="card-title">{{ person.name }}</div>
+    <p class="card-age">Age: {{ person.age }}</p>
+    <button class="view-btn">View</button>
+  </div>
+</a>
+</div>
+</div>
+
+{% endfor %} {% endblock %}
